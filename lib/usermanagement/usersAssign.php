@@ -79,7 +79,11 @@ switch($args->featureType) {
 
 if ($args->featureID && $args->doUpdate && $featureMgr) {
     if(checkRightsForUpdate($db,$args->user,$args->testprojectID,$args->featureType,$args->featureID)) {
-      doUpdate($db,$args,$featureMgr);
+      // Direct update without verification will clear all member permissions
+      if($args->map_userid_roleid)
+      {
+        doUpdate($db,$args,$featureMgr);
+      }
       if( $gui->user_feedback == '' ) {
         $gui->user_feedback = $gui->roles_updated;
     	}
